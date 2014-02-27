@@ -41,11 +41,14 @@ module LdapClient
 
   def client
     raise LdapNotEnabled.new unless enabled?
-    auth = {:method => :anonymous}
+    ldap_args = {:host => config['host'], :port => config['port'], :base => config['base'], :auth => {:method => :anonymous}}
     if config['user_dn'].present?
-      auth = {:method => :simple, :username => config['user_dn'], :password => config['password']}
+      ldap_args[:auth] = {:method => :simple, :username => config['user_dn'], :password => config['password']}
     end
-    Net::LDAP.new :host => config['host'], :port => config['port'], :base => config['base'], :auth => auth
+    if config['start_tls'].present?
+      ldap_args[:encryption] = :start_tls
+    end
+    Net::LDAP.new ldap_args
   end
 
   private

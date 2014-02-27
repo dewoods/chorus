@@ -127,6 +127,7 @@ kaggle.api_key = KAGGLE_API_KEY
 
 ldap.host = 10.32.88.212
 ldap.enable = false
+ldap.start_tls = false
 ldap.port = 389
 ldap.base = DC =greenplum,DC =com
 ldap.user_dn = greenplum\chorus
